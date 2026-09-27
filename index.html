@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="th" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TONNAM | Student Game Developer Portfolio</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            400: '#38bdf8',
+                            500: '#0284c7', // Sky Blue Primary
+                            600: '#0369a1',
+                            700: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        mint: {
+                            400: '#34d399',
+                            500: '#10b981', // Fresh Emerald Green
+                            600: '#059669',
+                            700: '#047857',
+                        },
+                        lightBg: '#f8fafc',
+                        cardLight: '#ffffff',
+                    },
+                    fontFamily: {
+                        sans: ['Prompt', 'Poppins', 'sans-serif'],
+                        en: ['Poppins', 'Prompt', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'glow-blue': '0 10px 25px -5px rgba(2, 132, 199, 0.25)',
+                        'glow-mint': '0 10px 25px -5px rgba(16, 185, 129, 0.25)',
+                        'soft-card': '0 10px 30px -5px rgba(0, 0, 0, 0.05), 0 4px 12px -2px rgba(0, 0, 0, 0.03)',
+                        'glass-light': '0 8px 30px 0 rgba(15, 23, 42, 0.06)',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Custom Styles for Clean White Theme */
+        body {
+            font-family: 'Prompt', 'Poppins', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            overflow-x: hidden;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(226, 232, 240, 0.9);
+            box-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.04);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #0284c7 0%, #10b981 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 35px -10px rgba(2, 132, 199, 0.15);
+            border-color: rgba(56, 189, 248, 0.5);
+        }
+
+        /* Ambient background blobs for light theme */
+        .bg-mesh {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .blob {
+            position: absolute;
+            filter: blur(100px);
+            opacity: 0.22;
+            border-radius: 50%;
+            animation: float 18s infinite alternate ease-in-out;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0px, 0px) scale(1); }
+            50% { transform: translate(60px, -40px) scale(1.15); }
+            100% { transform: translate(-40px, 50px) scale(0.95); }
+        }
+
+        /* Custom Scrollbar for Light Theme */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0284c7;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-500 selection:text-white">
+
+    <!-- Background Ambient Glow -->
+    <div class="bg-mesh">
+        <div class="blob bg-sky-300 w-[500px] h-[500px] -top-32 -left-32"></div>
+        <div class="blob bg-emerald-200 w-[450px] h-[450px] top-1/2 -right-32 animation-delay-2000"></div>
+        <div class="blob bg-purple-200 w-[400px] h-[400px] -bottom-32 left-1/3 animation-delay-4000"></div>
+    </div>
+
+    <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Minimal Logo -->
+                <a href="#about" class="flex items-center gap-3 group">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-500 to-mint-500 flex items-center justify-center text-white font-extrabold text-xl shadow-glow-blue transition-transform group-hover:scale-105">
+                        T
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="font-en font-bold text-lg tracking-wider text-slate-800 group-hover:text-brand-600 transition-colors">
+                            TONNAM<span class="text-mint-600">.DEV</span>
+                        </span>
+                        <span class="text-[10px] text-slate-400 -mt-1 tracking-widest font-mono">PORTFOLIO</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Nav Links -->
+                <nav class="hidden md:flex items-center gap-8 glass-panel px-6 py-2.5 rounded-full border border-slate-200 shadow-sm">
+                    <a href="#about" class="nav-link text-sm font-medium text-slate-600 hover:text-brand-600 transition-colors flex items-center gap-2 active">
+                        <i class="fa-solid fa-user-astronaut text-xs text-brand-500"></i> About Me
+                    </a>
+                    <a href="#skills" class="nav-link text-sm font-medium text-slate-600 hover:text-brand-600 transition-colors flex items-center gap-2">
+                        <i class="fa-solid fa-brain text-xs text-mint-500"></i> Skills & Goals
+                    </a>
+                    <a href="#games" class="nav-link text-sm font-medium text-slate-600 hover:text-brand-600 transition-colors flex items-center gap-2">
+                        <i class="fa-solid fa-gamepad text-xs text-purple-500"></i> My Games
+                    </a>
+                    <a href="#contact" class="nav-link text-sm font-medium text-slate-600 hover:text-brand-600 transition-colors flex items-center gap-2">
+                        <i class="fa-solid fa-envelope text-xs text-amber-500"></i> Contact
+                    </a>
+                </nav>
+
+                <!-- CTA Button -->
+                <div class="hidden md:flex items-center gap-3">
+                    <a href="#games" class="relative group overflow-hidden px-6 py-2.5 rounded-full bg-gradient-to-r from-brand-500 to-mint-500 text-white font-medium text-sm shadow-glow-blue hover:shadow-glow-mint transition-all duration-300 hover:scale-105 active:scale-95">
+                        <span class="relative z-10 flex items-center gap-2">
+                            <i class="fa-solid fa-play text-xs"></i> Play My Games
+                        </span>
+                        <div class="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity"></div>
+                    </a>
+                </div>
+
+                <!-- Mobile Hamburger Button -->
+                <button id="mobile-menu-btn" class="md:hidden text-slate-700 hover:text-slate-900 p-2 rounded-lg glass-panel focus:outline-none">
+                    <i class="fa-solid fa-bars text-xl" id="menu-icon"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Nav Menu Panel -->
+        <div id="mobile-menu" class="hidden md:hidden glass-panel border-b border-slate-200 px-4 pt-3 pb-6 space-y-3 transition-all duration-300 shadow-lg">
+            <a href="#about" class="mobile-link block px-4 py-2.5 rounded-xl text-base font-medium text-slate-700 hover:bg-slate-100 flex items-center gap-3">
+                <i class="fa-solid fa-user-astronaut text-brand-500"></i> About Me
+            </a>
+            <a href="#skills" class="mobile-link block px-4 py-2.5 rounded-xl text-base font-medium text-slate-700 hover:bg-slate-100 flex items-center gap-3">
+                <i class="fa-solid fa-brain text-mint-500"></i> Skills & Goals
+            </a>
+            <a href="#games" class="mobile-link block px-4 py-2.5 rounded-xl text-base font-medium text-slate-700 hover:bg-slate-100 flex items-center gap-3">
+                <i class="fa-solid fa-gamepad text-purple-500"></i> My Games
+            </a>
+            <a href="#contact" class="mobile-link block px-4 py-2.5 rounded-xl text-base font-medium text-slate-700 hover:bg-slate-100 flex items-center gap-3">
+                <i class="fa-solid fa-envelope text-amber-500"></i> Contact
+            </a>
+            <div class="pt-2">
+                <a href="#games" class="mobile-link w-full text-center block px-6 py-3 rounded-xl bg-gradient-to-r from-brand-500 to-mint-500 text-white font-medium text-sm shadow-md">
+                    <i class="fa-solid fa-play mr-2"></i> Play My Games
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <section id="about" class="min-h-screen pt-28 pb-16 flex items-center relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Left Hero Text Content -->
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    
+                    <!-- School Badge -->
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-slate-200 text-brand-600 text-xs sm:text-sm font-semibold shadow-sm animate-pulse">
+                        <span class="w-2 h-2 rounded-full bg-brand-500"></span>
+                        <span>นักเรียนชั้น ม.5 • โรงเรียนบางปะกอกวิทยาคม</span>
+                    </div>
+
+                    <!-- Main Headline -->
+                    <div class="space-y-2">
+                        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 leading-tight tracking-tight">
+                            สวัสดีครับ! ผม <span class="gradient-text">ต้นน้ำ</span>
+                        </h1>
+                        <h2 class="text-2xl sm:text-3xl font-bold text-slate-700">
+                            ธีรโชติ รุ่งเรือง <span class="text-brand-600 text-lg font-normal font-mono">(Teerachot)</span>
+                        </h2>
+                    </div>
+
+                    <!-- Intro Pitch -->
+                    <p class="text-slate-600 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                        ยินดีต้อนรับสู่พื้นที่รวบรวมผลงานการสร้างเกมและโปรเจกต์ดิจิทัลของผม! ผลงานที่เกิดจากการเรียนรู้ ฝึกฝนกระบวนการคิดวิเคราะห์ และการต่อยอดจินตนาการในช่วงเช้า สู่เกมที่สามารถ <strong class="text-mint-600">ทดลองเล่นได้จริง</strong>
+                    </p>
+
+                    <!-- Personality Quote Card -->
+                    <div class="p-4 rounded-2xl bg-white border border-slate-200 border-l-4 border-l-mint-500 max-w-xl mx-auto lg:mx-0 text-left shadow-sm">
+                        <div class="flex items-center gap-3 text-sm text-slate-700">
+                            <i class="fa-solid fa-quote-left text-xl text-mint-500"></i>
+                            <span class="font-medium italic">"บางปะกอกวิทยาคม โหด — ลุยทุกความท้าทาย ทั้งการคำนวณ ตรรกะ และการเขียนโปรแกรม"</span>
+                        </div>
+                    </div>
+
+                    <!-- Quick Highlight Chips -->
+                    <div class="flex flex-wrap gap-2.5 justify-center lg:justify-start pt-2">
+                        <span class="px-3.5 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-medium text-slate-700 shadow-sm flex items-center gap-2">
+                            <i class="fa-solid fa-calculator text-brand-500"></i> ถนัดด้านการคำนวณ
+                        </span>
+                        <span class="px-3.5 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-medium text-slate-700 shadow-sm flex items-center gap-2">
+                            <i class="fa-solid fa-compass-drafting text-mint-600"></i> เป้าหมาย: วิศวะ / นักบัญชี
+                        </span>
+                        <span class="px-3.5 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-medium text-slate-700 shadow-sm flex items-center gap-2">
+                            <i class="fa-solid fa-gamepad text-purple-600"></i> สร้างเกมจำลอง & AR
+                        </span>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
+                        <a href="#games" class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-gradient-to-r from-brand-500 to-mint-500 text-white font-semibold text-center shadow-glow-blue hover:shadow-glow-mint transition-all duration-300 hover:-translate-y-0.5">
+                            <i class="fa-solid fa-rocket mr-2"></i> ส่องผลงานเกมทั้งหมด
+                        </a>
+                        <a href="#contact" class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-white text-slate-700 hover:text-slate-900 font-semibold text-center border border-slate-200 hover:bg-slate-50 transition-all shadow-sm">
+                            <i class="fa-solid fa-paper-plane mr-2"></i> ติดต่อผู้สร้าง
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right Hero Profile Showcase -->
+                <div class="lg:col-span-5 flex justify-center">
+                    <div class="relative w-full max-w-md">
+                        
+                        <!-- Light Accent Glow -->
+                        <div class="absolute -inset-2 bg-gradient-to-r from-sky-300 via-emerald-300 to-purple-300 rounded-3xl blur-xl opacity-60 animate-pulse"></div>
+                        
+                        <!-- Main Card -->
+                        <div class="relative rounded-3xl bg-white border border-slate-200 p-6 space-y-6 shadow-xl overflow-hidden">
+                            
+                            <!-- Profile Image Container -->
+                            <div class="relative aspect-square rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 group">
+                                <img src="https://lh3.googleusercontent.com/d/17ni8_8AvKGzmqbJuaZiPKVIf26Yq-ofW" 
+                                     alt="ธีรโชติ รุ่งเรือง (ต้นน้ำ)" 
+                                     id="profile-img"
+                                     onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80';"
+                                     class="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105">
+                                
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent opacity-40"></div>
+                                
+                                <!-- Floating Badge on Avatar -->
+                                <div class="absolute bottom-3 left-3 right-3 glass-panel p-3 rounded-xl border border-slate-200 flex items-center justify-between shadow-md">
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-3 h-3 rounded-full bg-mint-500 animate-ping"></div>
+                                        <span class="text-xs font-semibold text-slate-800">พร้อมเรียนรู้ & พัฒนา</span>
+                                    </div>
+                                    <span class="text-[10px] font-mono text-slate-600 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">ม.5 BPK</span>
+                                </div>
+                            </div>
+
+                            <!-- Mini Profile Bio Stats -->
+                            <div class="grid grid-cols-2 gap-3 text-center">
+                                <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
+                                    <div class="text-2xl font-black text-brand-600 font-en">3+</div>
+                                    <div class="text-xs font-medium text-slate-500">เกมที่สร้างเสร็จ</div>
+                                </div>
+                                <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
+                                    <div class="text-2xl font-black text-mint-600 font-en">100%</div>
+                                    <div class="text-xs font-medium text-slate-500">ความตั้งใจเรียนรู้</div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" class="py-20 relative bg-white/60 border-y border-slate-200/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Section Title -->
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+                <span class="text-xs font-bold font-mono text-brand-600 tracking-widest uppercase px-3 py-1 rounded-full bg-brand-50 border border-brand-200">
+                    BENTO GRID SHOWCASE
+                </span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900">
+                    ทักษะหลัก & <span class="gradient-text">เป้าหมายอนาคต</span>
+                </h2>
+                <p class="text-slate-600 text-sm sm:text-base">
+                    การผสมผสานระหว่างตรรกะทางคณิตศาสตร์ ความซับซ้อนของการคำนวณ และความคิดสร้างสรรค์
+                </p>
+            </div>
+
+            <!-- Bento Grid Layout -->
+            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                
+                <!-- Bento Box 1: Core Skill Spotlight (Large 2 Col) -->
+                <div class="md:col-span-2 bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 relative overflow-hidden card-hover shadow-soft-card group">
+                    <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-sky-100 rounded-full blur-2xl group-hover:bg-sky-200 transition-all"></div>
+                    
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-12 h-12 rounded-2xl bg-brand-50 border border-brand-200 flex items-center justify-center text-brand-600 text-2xl shadow-sm">
+                            <i class="fa-solid fa-calculator"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs text-brand-600 font-mono font-bold uppercase">Core Skill</span>
+                            <h3 class="text-xl sm:text-2xl font-bold text-slate-900">การคำนวณ & การวิเคราะห์ตรรกะ</h3>
+                        </div>
+                    </div>
+
+                    <p class="text-slate-600 text-sm leading-relaxed mb-6">
+                        มีความเชี่ยวชาญและความชื่นชอบเป็นพิเศษใน **ทักษะการคำนวณ (Calculation & Quantitative Reasoning)** นำมาประยุกต์ใช้กับการออกแบบระบบภายในเกม เช่น ระบบเศรษฐกิจในเกมฟาร์ม ระบบคะแนน และอัลกอริทึม
+                    </p>
+
+                    <!-- Skill Progress Bars -->
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between text-xs font-semibold text-slate-700 mb-1">
+                                <span>คณิตศาสตร์ & ตรรกะ (Mathematical Logic)</span>
+                                <span class="text-brand-600 font-bold">90%</span>
+                            </div>
+                            <div class="h-2.5 w-full bg-slate-100 rounded-full overflow-hidden border border-slate-200">
+                                <div class="h-full bg-gradient-to-r from-brand-500 to-mint-500 rounded-full" style="width: 90%;"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-xs font-semibold text-slate-700 mb-1">
+                                <span>การคิดเชิงคำนวณ (Computational Thinking)</span>
+                                <span class="text-mint-600 font-bold">85%</span>
+                            </div>
+                            <div class="h-2.5 w-full bg-slate-100 rounded-full overflow-hidden border border-slate-200">
+                                <div class="h-full bg-gradient-to-r from-mint-500 to-purple-500 rounded-full" style="width: 85%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bento Box 2: Target Goal 1 (Accountant) -->
+                <div class="bg-white rounded-3xl p-6 border border-slate-200 card-hover shadow-soft-card flex flex-col justify-between relative overflow-hidden group">
+                    <div>
+                        <div class="w-10 h-10 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-600 text-xl mb-4 shadow-sm">
+                            <i class="fa-solid fa-file-invoice-dollar"></i>
+                        </div>
+                        <span class="text-xs text-amber-600 font-mono font-bold uppercase">Future Career #1</span>
+                        <h3 class="text-lg font-bold text-slate-900 mt-1">นักบัญชี (Accountant)</h3>
+                        <p class="text-slate-500 text-xs mt-2 leading-relaxed">
+                            มุ่งมั่นใช้ความละเอียดแม่นยำด้านตัวเลข การจัดการงบประมาณ และระบบบัญชีดิจิทัล
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                        <span class="font-medium">เป้าหมายการเรียน</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-amber-600"></i>
+                    </div>
+                </div>
+
+                <!-- Bento Box 3: Target Goal 2 (Engineering) -->
+                <div class="bg-white rounded-3xl p-6 border border-slate-200 card-hover shadow-soft-card flex flex-col justify-between relative overflow-hidden group">
+                    <div>
+                        <div class="w-10 h-10 rounded-xl bg-purple-50 border border-purple-200 flex items-center justify-center text-purple-600 text-xl mb-4 shadow-sm">
+                            <i class="fa-solid fa-gear"></i>
+                        </div>
+                        <span class="text-xs text-purple-600 font-mono font-bold uppercase">Future Career #2</span>
+                        <h3 class="text-lg font-bold text-slate-900 mt-1">วิศวกร (Engineer)</h3>
+                        <p class="text-slate-500 text-xs mt-2 leading-relaxed">
+                            ความฝันในการออกแบบโครงสร้างและแก้ไขปัญหาอย่างเป็นระบบด้วยเทคโนโลยี
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                        <span class="font-medium">เป้าหมายการเรียน</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-purple-600"></i>
+                    </div>
+                </div>
+
+                <!-- Bento Box 4: Learning Mindset -->
+                <div class="bg-white rounded-3xl p-6 border border-slate-200 card-hover shadow-soft-card">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-9 h-9 rounded-xl bg-mint-50 border border-mint-200 flex items-center justify-center text-mint-600">
+                            <i class="fa-solid fa-sun"></i>
+                        </div>
+                        <h4 class="font-bold text-slate-900 text-sm">การเรียนรู้ช่วงเช้า</h4>
+                    </div>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        ต่อยอดจินตนาการทุกเช้าเปลี่ยนทฤษฎีให้กลายเป็นเกมที่ผู้เล่นสามารถสนุกสนานได้จริง
+                    </p>
+                </div>
+
+                <!-- Bento Box 5: School Pride -->
+                <div class="bg-white rounded-3xl p-6 border border-slate-200 card-hover shadow-soft-card">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-9 h-9 rounded-xl bg-rose-50 border border-rose-200 flex items-center justify-center text-rose-600">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                        </div>
+                        <h4 class="font-bold text-slate-900 text-sm">บางปะกอกวิทยาคม</h4>
+                    </div>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        สถาบันที่บ่มเพาะระเบียบ วินัย และมุ่งมั่นพัฒนาศักยภาพวิชาการอย่างเข้มข้น
+                    </p>
+                </div>
+
+                <!-- Bento Box 6: Tools & Tech Stack (2 Cols) -->
+                <div class="md:col-span-2 bg-white rounded-3xl p-6 border border-slate-200 card-hover shadow-soft-card">
+                    <h4 class="font-bold text-slate-900 text-sm mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-cubes text-brand-600"></i> เครื่องมือ & เทคโนโลยีที่ใช้งาน
+                    </h4>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-medium text-slate-700 flex items-center gap-2">
+                            <i class="fa-solid fa-gamepad text-purple-600"></i> Game Logic Design
+                        </span>
+                        <span class="px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-medium text-slate-700 flex items-center gap-2">
+                            <i class="fa-solid fa-vr-cardboard text-mint-600"></i> AR Interactive Tech
+                        </span>
+                        <span class="px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-medium text-slate-700 flex items-center gap-2">
+                            <i class="fa-solid fa-robot text-brand-600"></i> Gemini Prompt Engineering
+                        </span>
+                        <span class="px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-medium text-slate-700 flex items-center gap-2">
+                            <i class="fa-solid fa-chart-line text-amber-600"></i> Math & Simulation Rules
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="games" class="py-20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Section Title & Filter Bar -->
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+                <div>
+                    <span class="text-xs font-bold font-mono text-mint-600 tracking-widest uppercase px-3 py-1 rounded-full bg-mint-50 border border-mint-200">
+                        MY CREATIVE WORKS
+                    </span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-2">
+                        ผลงานเกมที่สร้าง <span class="gradient-text">(My Games)</span>
+                    </h2>
+                    <p class="text-slate-600 text-sm mt-1">
+                        เลือกเล่นผลงานเกมจากการเรียนรู้ และสัมผัสประสบการณ์ความสนุกที่คุณทดลองเล่นได้ทันที
+                    </p>
+                </div>
+
+                <!-- Filter Pills -->
+                <div class="flex flex-wrap gap-2" id="filter-buttons">
+                    <button class="filter-btn active px-4 py-2 rounded-xl text-xs font-semibold transition-all bg-brand-500 text-white shadow-glow-blue" data-filter="all">
+                        ทั้งหมด
+                    </button>
+                    <button class="filter-btn px-4 py-2 rounded-xl text-xs font-semibold transition-all bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-slate-900 shadow-sm" data-filter="Simulation Game">
+                        Simulation
+                    </button>
+                    <button class="filter-btn px-4 py-2 rounded-xl text-xs font-semibold transition-all bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-slate-900 shadow-sm" data-filter="Educational Game">
+                        Educational
+                    </button>
+                    <button class="filter-btn px-4 py-2 rounded-xl text-xs font-semibold transition-all bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-slate-900 shadow-sm" data-filter="Action Game">
+                        Action
+                    </button>
+                </div>
+            </div>
+
+            <!-- 1. FEATURED GAME CARD (Highlight Project: ฟาร์มแมลง) -->
+            <div class="mb-12 game-card-item" data-category="Simulation Game Educational Game">
+                <div class="bg-white rounded-3xl overflow-hidden border border-slate-200 grid grid-cols-1 lg:grid-cols-12 shadow-soft-card group hover:border-brand-500 transition-all duration-300">
+                    
+                    <!-- Left Visual Thumbnail Banner -->
+                    <div class="lg:col-span-7 relative min-h-[300px] lg:min-h-[420px] bg-gradient-to-tr from-emerald-50 via-sky-50 to-indigo-50 overflow-hidden flex items-center justify-center p-8">
+                        
+                        <!-- Background Graphic Accents -->
+                        <div class="absolute inset-0 bg-grid-slate-100 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))]"></div>
+                        
+                        <!-- Decorative Insect Farm Game Graphic -->
+                        <div class="relative z-10 text-center space-y-4">
+                            <div class="w-24 h-24 sm:w-28 sm:h-28 mx-auto rounded-3xl bg-white p-2 shadow-xl border border-slate-200 transform group-hover:scale-110 transition-transform duration-500 flex items-center justify-center">
+                                <div class="w-full h-full bg-emerald-50 rounded-[20px] flex items-center justify-center text-5xl text-emerald-600">
+                                    <i class="fa-solid fa-locust"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 border border-emerald-300 text-xs font-bold inline-block">
+                                    <i class="fa-solid fa-star mr-1"></i> Featured Game 2569
+                                </span>
+                                <h3 class="text-2xl font-bold text-slate-900 mt-2">ฟาร์มแมลง (Insect Farm)</h3>
+                            </div>
+                        </div>
+
+                        <!-- Badge Top Left -->
+                        <div class="absolute top-4 left-4 z-20">
+                            <span class="px-3 py-1 rounded-xl bg-white/90 backdrop-blur-md text-slate-800 font-mono text-xs font-semibold border border-slate-200 shadow-sm">
+                                Year 2569
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Right Info Details -->
+                    <div class="lg:col-span-5 p-6 sm:p-8 flex flex-col justify-between space-y-6">
+                        <div>
+                            <div class="flex items-center gap-2 text-xs font-bold text-brand-600 mb-2">
+                                <span>SIMULATION GAME</span>
+                                <span>•</span>
+                                <span>EDUCATIONAL</span>
+                            </div>
+
+                            <h3 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-3">
+                                ฟาร์มแมลง
+                            </h3>
+
+                            <p class="text-slate-600 text-sm leading-relaxed mb-6">
+                                เกมจำลองสถานการณ์การบริหารจัดการฟาร์มแมลง เรียนรู้กระบวนการเลี้ยง จัดสรรทรัพยากร คำนวณรายรับ-รายจ่ายอย่างเป็นระบบ เพื่อสร้างผลกำไรสูงสุด!
+                            </p>
+
+                            <!-- Game Metadata -->
+                            <div class="space-y-3 pt-2 border-t border-slate-100 text-xs text-slate-600">
+                                <div class="flex justify-between">
+                                    <span class="text-slate-500"><i class="fa-solid fa-user text-brand-500 mr-2"></i>ผู้สร้าง:</span>
+                                    <span class="font-bold text-slate-800">ธีรโชติ รุ่งเรือง (ต้นน้ำ)</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-slate-500"><i class="fa-solid fa-calendar text-brand-500 mr-2"></i>ปีที่สร้าง:</span>
+                                    <span class="font-bold text-slate-800">2569</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-slate-500"><i class="fa-solid fa-layer-group text-brand-500 mr-2"></i>ประเภท:</span>
+                                    <span class="font-bold text-mint-600">Simulation / Educational</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CTA Button -->
+                        <div class="pt-4">
+                            <a href="https://gemini.google.com/share/d/188XoV9ffx6gTHB8XJWF0vubMwZGaWQTW?usp=sharing" 
+                               target="_blank" 
+                               rel="noopener noreferrer" 
+                               class="w-full inline-flex items-center justify-center gap-3 px-6 py-3.5 rounded-xl bg-gradient-to-r from-mint-500 to-brand-500 text-white font-bold shadow-glow-mint hover:shadow-glow-blue transition-all duration-300 hover:scale-[1.02]">
+                                <i class="fa-solid fa-circle-play text-lg"></i>
+                                <span>Play Game (เล่นเลย)</span>
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- 2. GAME CARD GRID (Other Games) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="games-grid">
+                
+                <!-- Game 2: ตู่แมน -->
+                <div class="game-card-item bg-white rounded-3xl overflow-hidden border border-slate-200 card-hover shadow-soft-card flex flex-col justify-between" data-category="Simulation Game Action Game">
+                    
+                    <!-- Card Top Graphic Banner -->
+                    <div class="relative h-48 bg-gradient-to-tr from-amber-100 via-orange-50 to-red-100 p-6 flex items-center justify-center overflow-hidden">
+                        
+                        <div class="relative z-10 text-center space-y-2">
+                            <div class="w-16 h-16 mx-auto rounded-2xl bg-white border border-amber-200 flex items-center justify-center text-3xl text-amber-600 shadow-md">
+                                <i class="fa-solid fa-utensils"></i>
+                            </div>
+                            <h4 class="font-bold text-slate-900 text-lg">ตู่แมน (Tuu Man)</h4>
+                        </div>
+
+                        <div class="absolute top-3 left-3">
+                            <span class="px-2.5 py-1 rounded-lg bg-white/90 text-amber-700 font-mono text-[10px] font-bold border border-amber-200 shadow-sm">
+                                Simulation / Action
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Card Body -->
+                    <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+                        <div>
+                            <div class="flex items-center justify-between text-xs text-slate-500 mb-1">
+                                <span>ผู้สร้าง: ธีรโชติ รุ่งเรือง</span>
+                                <span class="text-amber-600 font-semibold"><i class="fa-solid fa-fire mr-1"></i>สนุก & ท้าทาย</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-slate-900 mb-2">ตู่แมน</h3>
+                            <p class="text-slate-600 text-xs leading-relaxed">
+                                เกมจำลองบทบาททำอาหารให้บริการลูกค้า บริหารเวลา วัตถุดิบ และความรวดเร็วเพื่อสร้างความประทับใจให้แก่ลูกค้าทุกคนที่มาสั่งอาหาร!
+                            </p>
+                        </div>
+
+                        <div class="pt-4 border-t border-slate-100">
+                            <a href="https://gemini.google.com/share/d/1P_CpFqO2zzqLz2YwvdnXUQ7T2hJy8LuF?usp=sharing" 
+                               target="_blank" 
+                               rel="noopener noreferrer"
+                               class="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-sm transition-all shadow-md">
+                                <i class="fa-solid fa-gamepad"></i>
+                                <span>Play Game (เล่นเลย)</span>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Game 3: จับคู่พละ AR -->
+                <div class="game-card-item bg-white rounded-3xl overflow-hidden border border-slate-200 card-hover shadow-soft-card flex flex-col justify-between" data-category="Educational Game Puzzle Game">
+                    
+                    <!-- Card Top Graphic Banner -->
+                    <div class="relative h-48 bg-gradient-to-tr from-purple-100 via-indigo-50 to-sky-100 p-6 flex items-center justify-center overflow-hidden">
+                        
+                        <div class="relative z-10 text-center space-y-2">
+                            <div class="w-16 h-16 mx-auto rounded-2xl bg-white border border-purple-200 flex items-center justify-center text-3xl text-purple-600 shadow-md">
+                                <i class="fa-solid fa-shapes"></i>
+                            </div>
+                            <h4 class="font-bold text-slate-900 text-lg">จับคู่พละ AR</h4>
+                        </div>
+
+                        <div class="absolute top-3 left-3">
+                            <span class="px-2.5 py-1 rounded-lg bg-white/90 text-purple-700 font-mono text-[10px] font-bold border border-purple-200 shadow-sm">
+                                Educational / AR
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Card Body -->
+                    <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+                        <div>
+                            <div class="flex items-center justify-between text-xs text-slate-500 mb-1">
+                                <span>ผู้สร้าง: ธีรโชติ รุ่งเรือง</span>
+                                <span class="text-purple-600 font-semibold"><i class="fa-solid fa-brain mr-1"></i>ฝึกสมอง & กีฬา</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-slate-900 mb-2">จับคู่พละ AR</h3>
+                            <p class="text-slate-600 text-xs leading-relaxed">
+                                เกมการศึกษาจับคู่คำศัพท์และทักษะด้านพลศึกษา ผสานเทคโนโลยี Interactive AR ทดสอบความรู้ความจำและความว่องไว
+                            </p>
+                        </div>
+
+                        <div class="pt-4 border-t border-slate-100">
+                            <a href="https://gemini.google.com/share/d/1NlmyPQ3Z9BHvSnTqVqctzaNWLHzJY2vK?usp=sharing" 
+                               target="_blank" 
+                               rel="noopener noreferrer"
+                               class="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-sm transition-all shadow-md">
+                                <i class="fa-solid fa-gamepad"></i>
+                                <span>Play Game (เล่นเลย)</span>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Empty State Container (Hidden by default) -->
+            <div id="empty-state" class="hidden text-center py-16 bg-white rounded-3xl border border-slate-200 shadow-soft-card my-6">
+                <i class="fa-solid fa-ghost text-5xl text-slate-400 mb-4 animate-bounce"></i>
+                <h3 class="text-lg font-bold text-slate-800">ไม่พบเกมในหมวดหมู่นี้</h3>
+                <p class="text-xs text-slate-500 mt-1">ลองเลือกสลับเป็นหมวดหมู่อื่นเพื่อดูผลงานเพิ่มเติม</p>
+            </div>
+
+        </div>
+    </section>
+
+    <footer id="contact" class="relative pt-20 pb-12 overflow-hidden bg-slate-100/80 border-t border-slate-200">
+        
+        <!-- Subtle Glow Overlay -->
+        <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-64 bg-brand-500/5 blur-3xl rounded-full pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            
+            <!-- Contact Banner Card -->
+            <div class="bg-white rounded-3xl p-8 sm:p-12 border border-slate-200 mb-16 relative overflow-hidden shadow-soft-card">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    
+                    <div class="lg:col-span-8 space-y-4">
+                        <span class="text-xs font-bold font-mono text-mint-600 uppercase tracking-widest px-3 py-1 bg-mint-50 rounded-full border border-mint-200">
+                            GET IN TOUCH
+                        </span>
+                        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900">
+                            สนใจพูดคุย หรือแลกเปลี่ยนเรื่อง <span class="gradient-text">การสร้างเกม?</span>
+                        </h2>
+                        <p class="text-slate-600 text-sm max-w-2xl leading-relaxed">
+                            ผมพร้อมเปิดรับทุกข้อเสนอแนะ การเรียนรู้ใหม่ๆ และโอกาสในการพัฒนาทักษะด้านเทคโนโลยี สามารถส่งอีเมลติดต่อผมได้ตลอดเวลาครับ
+                        </p>
+
+                        <!-- Direct Email Card -->
+                        <div class="inline-flex items-center gap-3 p-3 rounded-2xl bg-slate-50 border border-slate-200 mt-2 max-w-full overflow-hidden shadow-sm">
+                            <div class="w-10 h-10 rounded-xl bg-brand-50 border border-brand-200 flex items-center justify-center text-brand-600 shrink-0">
+                                <i class="fa-solid fa-envelope"></i>
+                            </div>
+                            <div class="overflow-hidden">
+                                <div class="text-[10px] text-slate-400 uppercase font-mono font-semibold">Email Address</div>
+                                <div class="text-sm font-bold text-slate-800 truncate" id="email-text">teerachotrungrueng@gmail.com</div>
+                            </div>
+                            <button id="copy-email-btn" class="ml-2 px-3 py-1.5 rounded-lg bg-brand-500 hover:bg-brand-600 text-white text-xs font-semibold transition-colors shrink-0 flex items-center gap-1.5 shadow-sm">
+                                <i class="fa-regular fa-copy"></i> Copy
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-4 flex justify-center lg:justify-end">
+                        <a href="mailto:teerachotrungrueng@gmail.com" class="px-8 py-4 rounded-2xl bg-gradient-to-r from-brand-500 to-mint-500 text-white font-bold shadow-glow-blue hover:shadow-glow-mint transition-all transform hover:-translate-y-1">
+                            <i class="fa-solid fa-paper-plane mr-2"></i> ส่งอีเมลหาต้นน้ำ
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Multi-Column Footer Content -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 pb-12 border-b border-slate-200 text-sm">
+                
+                <!-- Col 1: Creator Bio -->
+                <div class="space-y-4 md:col-span-2">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-brand-500 to-mint-500 flex items-center justify-center text-white font-bold">
+                            T
+                        </div>
+                        <span class="font-en font-bold text-lg text-slate-900">TONNAM PORTFOLIO</span>
+                    </div>
+                    <p class="text-slate-500 text-xs leading-relaxed max-w-md">
+                        ผลงาน Student Portfolio นำเสนอเกมดิจิทัลที่สร้างสรรค์ขึ้นโดย ธีรโชติ รุ่งเรือง (ต้นน้ำ) ชั้นมัธยมศึกษาปีที่ 5 โรงเรียนบางปะกอกวิทยาคม
+                    </p>
+                </div>
+
+                <!-- Col 2: Navigation Links -->
+                <div class="space-y-3">
+                    <h4 class="font-bold text-slate-900 text-sm font-mono uppercase">Quick Links</h4>
+                    <ul class="space-y-2 text-xs text-slate-600 font-medium">
+                        <li><a href="#about" class="hover:text-brand-600 transition-colors">About Me (แนะนำตัว)</a></li>
+                        <li><a href="#skills" class="hover:text-brand-600 transition-colors">Skills & Goals (ทักษะและเป้าหมาย)</a></li>
+                        <li><a href="#games" class="hover:text-brand-600 transition-colors">My Games (ผลงานเกม)</a></li>
+                        <li><a href="#contact" class="hover:text-brand-600 transition-colors">Contact (ติดต่อ)</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3: Academic Info -->
+                <div class="space-y-3">
+                    <h4 class="font-bold text-slate-900 text-sm font-mono uppercase">Information</h4>
+                    <ul class="space-y-2 text-xs text-slate-600 font-medium">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-school text-brand-600"></i> บางปะกอกวิทยาคม</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-user-graduate text-mint-600"></i> ชั้นมัธยมศึกษาปีที่ 5</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-location-dot text-rose-500"></i> กรุงเทพมหานคร, ประเทศไทย</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- Bottom Copyright Bar -->
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 font-medium gap-4">
+                <div>
+                    © 2026 Teerachot Rungrueng. All rights reserved. Built with VibeUI Pattern.
+                </div>
+                <div class="flex items-center gap-4">
+                    <span class="text-slate-500">Design: <span class="text-brand-600 font-bold">Modern Light Educational Portfolio</span></span>
+                </div>
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-white px-5 py-3.5 rounded-2xl border border-mint-200 text-mint-700 font-semibold text-sm flex items-center gap-3 shadow-xl">
+        <i class="fa-solid fa-circle-check text-lg text-mint-500"></i>
+        <span id="toast-message">คัดลอกอีเมลเรียบร้อยแล้ว!</span>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // 1. Mobile Menu Toggle Logic
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuIcon = document.getElementById('menu-icon');
+
+            mobileMenuBtn?.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                if (mobileMenu.classList.contains('hidden')) {
+                    menuIcon.className = 'fa-solid fa-bars text-xl';
+                } else {
+                    menuIcon.className = 'fa-solid fa-xmark text-xl';
+                }
+            });
+
+            // Close mobile menu on clicking any link
+            document.querySelectorAll('.mobile-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu?.classList.add('hidden');
+                    menuIcon.className = 'fa-solid fa-bars text-xl';
+                });
+            });
+
+            // 2. Navbar Backdrop Shadow on Scroll
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 40) {
+                    navbar?.classList.add('bg-white/90', 'backdrop-blur-md', 'shadow-md');
+                } else {
+                    navbar?.classList.remove('bg-white/90', 'backdrop-blur-md', 'shadow-md');
+                }
+            });
+
+            // 3. Games Category Filter Logic
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const gameCards = document.querySelectorAll('.game-card-item');
+            const emptyState = document.getElementById('empty-state');
+
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Update active button styling
+                    filterButtons.forEach(b => {
+                        b.classList.remove('active', 'bg-brand-500', 'text-white', 'shadow-glow-blue');
+                        b.classList.add('bg-white', 'text-slate-600', 'border', 'border-slate-200');
+                    });
+                    btn.classList.add('active', 'bg-brand-500', 'text-white', 'shadow-glow-blue');
+                    btn.classList.remove('bg-white', 'text-slate-600', 'border', 'border-slate-200');
+
+                    const filterValue = btn.getAttribute('data-filter');
+                    let visibleCount = 0;
+
+                    gameCards.forEach(card => {
+                        const cardCategories = card.getAttribute('data-category') || '';
+                        if (filterValue === 'all' || cardCategories.includes(filterValue)) {
+                            card.style.display = 'block';
+                            visibleCount++;
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+
+                    // Toggle empty state
+                    if (visibleCount === 0 && emptyState) {
+                        emptyState.classList.remove('hidden');
+                    } else if (emptyState) {
+                        emptyState.classList.add('hidden');
+                    }
+                });
+            });
+
+            // 4. Copy Email to Clipboard Feature
+            const copyBtn = document.getElementById('copy-email-btn');
+            const emailText = document.getElementById('email-text')?.innerText || 'teerachotrungrueng@gmail.com';
+            const toast = document.getElementById('toast');
+
+            copyBtn?.addEventListener('click', () => {
+                // Clipboard fallback
+                const tempInput = document.createElement('input');
+                tempInput.value = emailText;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                try {
+                    document.execCommand('copy');
+                    showToast('คัดลอกอีเมลเรียบร้อยแล้ว!');
+                } catch (err) {
+                    showToast('ไม่สามารถคัดลอกได้');
+                }
+                document.body.removeChild(tempInput);
+            });
+
+            function showToast(msg) {
+                if (!toast) return;
+                const toastMsg = document.getElementById('toast-message');
+                if (toastMsg) toastMsg.innerText = msg;
+
+                toast.classList.remove('translate-y-20', 'opacity-0');
+                toast.classList.add('translate-y-0', 'opacity-100');
+
+                setTimeout(() => {
+                    toast.classList.remove('translate-y-0', 'opacity-100');
+                    toast.classList.add('translate-y-20', 'opacity-0');
+                }, 3000);
+            }
+
+        });
+    </script>
+</body>
+</html>
